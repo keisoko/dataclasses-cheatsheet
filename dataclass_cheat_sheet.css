@@ -1,0 +1,74 @@
+:root {
+  --paragraph-font-family: "Georgia", Arial, sans-serif;
+  --paragraph-font-size: 20px;
+  --paragraph-line-height: 1.7em;
+  --heading-font-family: "Helvetica Neue", Helvetica, sans-serif;
+  --heading-font-size: 1.5rem;
+  --heading-color: #32458b;
+  --text-letter-spacing: 0.05rem;
+}
+
+.code-block {
+  font-family: "Fira Code", "Courier New";
+  background-color: #eee;
+  border: 1px solid #999;
+  border-radius: 3px;
+  display: block;
+  font-size: 100%;
+  font-weight: 500;
+  color: #0a0e27;
+  letter-spacing: var(--text-letter-spacing);
+}
+
+.inline-code {
+  font-family: "Fira Code", "courier new";
+  color: crimson;
+  background-color: #ebdddd;
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+#intro h1 {
+  font-family: "DejaVu Sans Mono", Arial, sans-serif;
+  font-size: 1.875rem;
+  text-align: center;
+  letter-spacing: var(--text-letter-spacing);
+}
+
+#intro p {
+  font-family: var(--paragraph-font-family);
+  font-size: var(--paragraph-font-size);
+  padding-top: 5px;
+  line-height: var(--paragraph-line-height);
+  letter-spacing: var(--text-letter-spacing);
+}
+
+.features h2 {
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size);
+  color: var(--heading-color);
+  letter-spacing: var(--text-letter-spacing);
+}
+
+.features p {
+  font-family: var(--paragraph-font-family);
+  font-size: var(--paragraph-font-size);
+  line-height: var(--paragraph-line-height);
+  letter-spacing: var(--text-letter-spacing);
+}
+
+#reference h3 {
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size);
+  color: var(--heading-color);
+  letter-spacing: var(--text-letter-spacing);
+}
+
+ul li {
+  font-family: "Georgia", sans-serif;
+  font-size: var(--paragraph-font-size);
+  line-height: 1.7rem;
+  padding: 5px;
+  list-style: square;
+  letter-spacing: var(--text-letter-spacing);
+}

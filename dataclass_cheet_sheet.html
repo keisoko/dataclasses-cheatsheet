@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Python Dataclass Cheat Sheet</title>
+    <link rel="stylesheet" href="css/dataclass_cheat_sheet.css" />
+  </head>
+
+  <body>
+    <main>
+      <section id="intro">
+        <h1>Python Dataclasses Cheat Sheet</h1>
+        <p>
+          Python Dataclass syntax, released with Python version 3.7, offers the
+          simplified way to create classes in Python. The only difference
+          between regular classes and the dataclass is that in the dataclass,
+          basic methods like <code class="inline-code">__init__</code>,
+          <code class="inline-code">__repr__</code>,
+          <code class="inline-code">__eq__</code> and some others are
+          automatically generated for you by the dataclass.
+        </p>
+      </section>
+      <section class="features">
+        <h2>Creating A Dataclass</h2>
+        <p>
+          In order to create a dataclass you need to export
+          <code class="inline-code">dataclass</code> from
+          <code class="inline-code">dataclasses</code> and then use
+          <code class="inline-code">@dataclass</code> decorator above the class
+          name.
+        </p>
+        <pre>
+        <code class="code-block">
+          from dataclasses import dataclass
+
+          @dataclass
+          class Person:
+            first_name: str
+            last_name: str
+            age: int
+        </code>
+      </pre>
+        <h2>Creating And Printing The Class Instance</h2>
+        <p>
+          The way to make an instance of a dataclass is the same as with regular
+          classes. All you have to do is this:
+        </p>
+        <pre>
+        <code class="code-block">
+          person1 = Person(first_name='John', last_name='Doe', age=35)
+        </code>
+    </pre>
+        <p>
+          And since the <code class="inline-code">__repr__</code> is generated
+          by the dataclass itself, in order to output the instance you just
+          created, you can do the following:
+        </p>
+        <pre>
+        <code class="code-block">
+          print(f"My name is {person1.first_name} {person1.last_name} and I am {person1.age} years old")
+        </code>
+      </pre>
+        <p>The output will look like:</p>
+        <pre>
+        <code class="code-block">
+          My name is John Doe and I am 35 years old
+        </code>
+      </pre>
+        <h2>Type Hints</h2>
+        <p>
+          Dataclasses support typing out of the box. When defining fields in
+          dataclasses, it is mandatory to specify their type. Without a type
+          hint, the field will not be a part of the dataclass. If you look back
+          at the first example, we specify the type of the field:
+          <code class="inline-code">first_name:str</code>,
+          <code class="inline-code">last_name:str</code>,
+          <code class="inline-code">age:int</code>
+        </p>
+
+        <h2>Default Values</h2>
+        <p>
+          It is easy to add default values to the the fields of your dataclass.
+          The code in the following two examples comes from the
+          <a
+            href="https://realpython.com/python-data-classes/"
+            rel="external nofollow noopener noreferrer"
+            target="_blank"
+            >Real Python article on dataclasses</a
+          >.
+        </p>
+        <pre>
+        <code class="code-block">
+          from dataclasses import dataclass
+
+          @dataclass
+          class Position:
+            name: str
+            lon: float = 0.0
+            lat: float = 0.0
+        </code>
+      </pre>
+        <p>
+          This works exactly as if you had specified the default values in the
+          definition of the <code class="inline-code">.__init__()</code> method
+          of a regular class:
+        </p>
+        <pre>
+        <code class="code-block">
+          print(Position('Null Island'))
+          Position(name='Null Island', lon=0.0, lat=0.0)
+          
+          print(Position('Greenwich', lat=51.8))
+          Position(name='Greenwich', lon=0.0, lat=51.8)
+          
+          print(Position('Vancouver', -123.1, 49.3))
+          Position(name='Vancouver', lon=-123.1, lat=49.3)
+        </code>
+      </pre>
+        <h2>Creating And Using Methods In Dataclass</h2>
+        <p>
+          Since the dataclass is just like a regular class, you can create and
+          use your own methods. The following example shows how to do this:
+        </p>
+        <pre>
+          <code class="code-block">
+            from dataclasses import dataclass
+
+            @dataclass
+            class School:
+                """Class representing the School"""
+
+                school_name: str
+                school_level: str
+                number_of_students: int
+
+                def school_info(self) - &gt; str:
+                    """Returns general School Info"""
+                    return f"A {self.school_level} school named {self.school_name!r} with {self.number_of_students} students."
+
+            mySchool = School(
+              school_name="Codecademy Middle",
+              school_level="middle",
+              number_of_students=100
+            )
+                  
+            print(mySchool.school_info())        
+          </code>
+        </pre>
+        <p>The output of this code is:</p>
+        <pre>
+          <code class="code-block">
+            A middle school named 'Codecademy Middle' with 100 students.
+          </code>
+        </pre>
+        <h2>Inheritance</h2>
+        <p>
+          Using inheritance (creating subclasses) in dataclasses is pretty
+          simple. As an example, lets extend the
+          <code class="inline-code">School</code> class and its
+          <code class="inline-code">school_info</code> method with
+          <code class="inline-code">PrimarySchool</code> class that has
+          <code class="inline-code">pickup_policy</code> field:
+        </p>
+        <pre>
+          <code class="code-block">
+            from dataclasses import dataclass
+
+            @dataclass
+            class School:
+                """Parent class representing the School"""
+
+                school_name: str
+                school_level: str
+                number_of_students: int
+
+                def school_info(self) - &gt; str:
+                    """Returns general School Info"""
+                    return f"A {self.school_level} school named {self.school_name!r} with {self.number_of_students} students."
+
+
+            @dataclass
+            class PrimarySchool(School):
+                """Child class representing the Primary School"""
+
+                pickup_policy: str
+
+                def school_info(self) - &gt; str:
+                    """Adds Pickup Policy information"""
+                    return f"{super().school_info()} The pickup policy is: {self.pickup_policy}"
+
+
+            mySchool = School(
+                school_name="Codecademy Middle",
+                school_level="middle",
+                number_of_students=100
+            )
+
+            myPrimary = PrimarySchool(
+                school_name="Codecademy Primary",
+                school_level="primary",
+                number_of_students=300,
+                pickup_policy="Pickup Allowed"
+            )
+
+            schools = [mySchool, myPrimary]
+
+            for school in schools:
+                print(school.school_info())
+          </code>
+        </pre>
+        <p>The output of the above code is this:</p>
+        <pre>
+          <code class="code-block">
+            A middle school named 'Codecademy Middle' with 100 students.<br>
+            A primary school named 'Codecademy Primary' with 300 students. The pickup policy is: Pickup Allowed
+          </code>
+        </pre>
+        <p>
+          The fields in the subclass follow the order of the fields of the
+          parent class. In our example, the order of the fields in the <code class="inline-code">__init__</code> method will look like this:
+          <pre>
+            <code class="code-block">
+              def __init__(self, school_name: str, school_level:str, number_of_students: int, pickup_policy: str):
+                ...
+            </code>
+          </pre> 
+        </p>
+        <p>Which means that since in Python default arguments must follow non-default ones, when any fields in the parent class have default values, the fields in the child class must have a default value also.</p>
+        <h2>Creating A List in Dataclass</h2>
+        <p>To create a list in the dataclass you need to add <code class="inline-code">field</code> to the <code class="inline-code">from dataclasses import dataclass</code> import statement, like so:</p>
+        <pre>
+          <code class="code-block">
+            from dataclasses import dataclass, field
+          </code>
+        </pre>
+        <p><a href="https://docs.python.org/3/library/dataclasses.html#dataclasses.field" rel="external nofollow noopener noreferrer" target="_blank">field()</a> function has many parameters, but the one used in list creation is the <code class="inline-code">default_factory</code>. It must be specified when creating the new instance of the list. To demonstrate this, let's extend <code class="inline-code">School</code> class with <code class="inline-code">HighSchool</code> class:</p>
+        <pre>
+          <code class="code-block">
+            from dataclasses import dataclass, field
+
+
+            @dataclass
+            class School:
+                """Parent class representing the School"""
+
+                school_name: str
+                school_level: str
+                number_of_students: int
+
+                def school_info(self) - &gt; str:
+                    """Returns general School Info"""
+
+                    return f"A {self.school_level} school named {self.school_name!r} with {self.number_of_students} students."
+
+
+            @dataclass
+            class PrimarySchool(School):
+                """Primary School class"""
+
+                pickup_policy: str
+
+                def school_info(self) - &gt; str:
+                    """Adds Pickup Policy information"""
+                    return f"{super().school_info()} The pickup policy is: {self.pickup_policy}"
+
+
+            @dataclass
+            class HighSchool(School):
+                """High School class"""
+
+                sports_teams: list[str] = field(default_factory=list)
+
+                def school_info(self) - &gt; str:
+                    """Adds Information about the sports teams"""
+
+                    return f"{super().school_info()} It includes the following sports teams: {self.sports_teams}"
+
+                def addTeam(self, sports_team: str) - &gt; None:
+                    """Appends a new team to the sportsTeams list"""
+
+                    if sports_team not in self.sports_teams:
+                        self.sports_teams.append(sports_team)
+
+
+            mySchool = School(
+                school_name="Codecademy Middle",
+                school_level="middle",
+                number_of_students=100
+            )
+
+            myPrimary = PrimarySchool(
+                school_name="Codecademy Primary",
+                school_level="primary",
+                number_of_students=300,
+                pickup_policy="Pickup Allowed"
+            )
+
+            myHighSchool = HighSchool(
+                school_name="Codecademy High",
+                school_level="high",
+                number_of_students=500,
+                sports_teams=["Tennis", "Basketball"]
+            )
+
+            myHighSchool.addTeam("Hockey")
+
+            schools = [mySchool, myPrimary, myHighSchool]
+
+            for school in schools:
+                print(school.school_info())
+          </code>
+        </pre>
+        <p>Note: In Python version pre 3.9, you need to add the following import statement: <code class="inline-code">from typing import List</code> and change the line in the <code class="inline-code">HighSchool</code> class to this: <code class="inline-code">sports_teams: List[str] = field(default_factory=list)</code></p>
+        <h2>Optimizing Dataclasses by using __slots__</h2>
+        <p>To make classes faster and use less memory you can use the <code class="inline-code">__slots__</code>. They are defined using <code class="inline-code">.__slots__</code> to list the variables on a class. Variables or attributes not present in <code class="inline-code">.__slots__</code> may not be defined. Furthermore, a slots class may not have default values. When subclasses without slots inherit from base class containing slots, they inherit slots too.</p>
+        <pre>
+          <code class="code-block">
+            from dataclasses import dataclass, field
+
+
+            @dataclass
+            class School:
+                """Parent class representing the School"""
+
+                __slots__ = ["school_name", "school_level", "number_of_students"]
+                
+                school_name: str
+                school_level: str
+                number_of_students: int
+
+                def school_info(self) - &gt; str:
+                    """Returns general School Info"""
+                    return f"A {self.school_level} school named {self.school_name!r} with {self.number_of_students} students."
+
+
+            @dataclass
+            class PrimarySchool(School):
+                """Primary School class"""
+
+                pickup_policy: str
+
+                def school_info(self) - &gt; str:
+                    """Adds Pickup Policy information"""
+                    return f"{super().school_info()} The pickup policy is: {self.pickup_policy}"
+
+
+            @dataclass
+            class HighSchool(School):
+                """High School class"""
+
+                sports_teams: list[str] = field(default_factory=list)
+
+                def school_info(self) - &gt; str:
+                    """Adds Information about the sports teams"""
+                    return f"{super().school_info()} It includes the following sports teams: {self.sports_teams}"
+
+                def addTeam(self, sports_team: str) - &gt; None:
+                    """Appends a new team to the sportsTeams list"""
+                    if sports_team not in self.sports_teams:
+                        self.sports_teams.append(sports_team)
+
+
+            mySchool = School(
+                school_name="Codecademy Middle",
+                school_level="middle",
+                number_of_students=100
+            )
+
+            myPrimary = PrimarySchool(
+                school_name="Codecademy Primary",
+                school_level="primary",
+                number_of_students=300,
+                pickup_policy="Pickup Allowed"
+            )
+
+            myHighSchool = HighSchool(
+                school_name="Codecademy High",
+                school_level="high",
+                number_of_students=500,
+                sports_teams=["Tennis", "Basketball"]
+            )
+
+            myHighSchool.addTeam("Hockey")
+
+            schools = [mySchool, myPrimary, myHighSchool]
+
+            for school in schools:
+                print(school.school_info())
+          </code>
+        </pre>
+        <p>The output will be this:</p>
+        <pre>
+          <code class="code-block">
+            A middle school named 'Codecademy Middle' with 100 students.<br/>
+            A primary school named 'Codecademy Primary' with 300 students. The pickup policy is: Pickup Allowed<br/>
+            A high school named 'Codecademy High' with 500 students. It includes the following sports teams: ['Tennis', 'Basketball', 'Hockey']
+          </code>
+        </pre>
+      </section>
+      <section id="reference">
+        <h3>References</h3>
+        <ul>
+          <li>Official Documentation: <a href="https://docs.python.org/3/library/dataclasses.html#module-dataclasses" rel="external nofollow noopener noreferrer" target="_blank">dataclasses — Data Classes</a></li>
+          <li>Real Python article: <a href="https://realpython.com/python-data-classes/#inheritance" rel="external nofollow noopener noreferrer" target="_blank">Data Classes in Python 3.7+ (Guide)</a></li>
+          <li>Python backport for Python 3.6: <a href="https://pypi.org/project/dataclasses/" rel="external nofollow noopener noreferrer" target="_blank">dataclasses 0.8</a></li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
