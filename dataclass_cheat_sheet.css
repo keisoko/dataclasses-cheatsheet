@@ -1,11 +1,11 @@
 :root {
   --paragraph-font-family: "Georgia", Arial, sans-serif;
   --paragraph-font-size: 20px;
-  --paragraph-line-height: 1.7em;
+  --paragraph-line-height: 1.75rem;
   --heading-font-family: "Helvetica Neue", Helvetica, sans-serif;
   --heading-font-size: 1.5rem;
   --heading-color: #32458b;
-  --text-letter-spacing: 0.05rem;
+  --text-letter-spacing: 0.0625rem;
 }
 
 .code-block {
@@ -22,10 +22,12 @@
 
 .inline-code {
   font-family: "Fira Code", "courier new";
+  font-size: 1.063rem;
+  font-weight: 500;
   color: crimson;
   background-color: #ebdddd;
-  padding: 2px 5px;
-  border-radius: 3px;
+  padding: 0.05rem 0.125rem;
+  border-radius: 4px;
 }
 
 #intro h1 {
@@ -67,7 +69,7 @@
 ul li {
   font-family: "Georgia", sans-serif;
   font-size: var(--paragraph-font-size);
-  line-height: 1.7rem;
+  line-height: 1.75rem;
   padding: 5px;
   list-style: square;
   letter-spacing: var(--text-letter-spacing);
