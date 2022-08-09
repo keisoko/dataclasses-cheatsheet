@@ -1,2 +1,3 @@
-# dataclasses-cheatsheet
-Codecademy Dataclasses Cheatsheet Project  
+# dataclasses-Cheat Sheet
+
+Codecademy Dataclasses Cheat Sheet Project  
